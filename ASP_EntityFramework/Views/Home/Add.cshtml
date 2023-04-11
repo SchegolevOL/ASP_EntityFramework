@@ -1,0 +1,40 @@
+﻿@model Post
+@{
+	ViewData["Title"] = "Add";
+}
+<h1>Add Post</h1>
+
+<form asp-controller="Home" asp-action="Add" method="post">
+	<div class="mb-3">
+		<label asp-for="Title" class="form-label">Title</label>
+		<input asp-for="Title" class="form-control"  placeholder="enter title">
+	</div>
+	<div class="mb-3">
+		<label asp-for="ImageUrl" class="form-label">ImageUrl</label>
+		<input asp-for="ImageUrl" class="form-control"  placeholder="ImageUrl">
+	</div>
+	<div class="mb-3">
+		<label asp-for="Content" class="form-label">Content</label>
+		<textarea asp-for="Content" rows="10" class="form-control"  placeholder="Content"></textarea>
+	</div>
+	<input type="submit" value="Add" class="btn btn-primary"/>
+</form>
+
+@*<form asp-controller="Home" asp-action="Add" method="post">
+	<div class="mb-3">
+		<label for="title" class="form-label">Title</label>
+		<input type="text" required name="Title" id="title" class="form-control"  placeholder="enter title">
+	</div>
+	<div class="mb-3">
+		<label for="imageUrl" class="form-label">ImageUrl</label>
+		<input type="text" name="ImageUrl" id="title" class="form-control"  placeholder="ImageUrl">
+	</div>
+	<div class="mb-3">
+		<label for="content" class="form-label">Content</label>
+		<textarea rows="10" required name="Content" type="text" id="title" class="form-control"  placeholder="Content"></textarea>
+	</div>
+	<input type="submit" value="Add" class="btn btn-primary"/>
+</form>*@
+@section Scripts{
+	<partial name = "_ValidationScriptsPartial"></partial>
+}
