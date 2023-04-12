@@ -1,8 +1,42 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+@model IEnumerable<Post>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome</h1>    
 </div>
+
+@if (TempData.ContainsKey("Status"))
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Notifikation</strong> @TempData["Status"]
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+
+<div class="list-group">
+@foreach(var item in Model)
+    {
+       
+  <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">@item.Title</h5>
+      <small>@item.Date</small>
+    </div>
+    <p class="mb-1">@item.Content</p>
+    <small>And some small print.</small>
+  </a>
+  
+
+    }
+    
+
+</div>
+
+@section Scripts{
+    <script>
+        setTimeout(()=>{
+            $('.alert').hide();
+        },5000)
+    </script>
+}

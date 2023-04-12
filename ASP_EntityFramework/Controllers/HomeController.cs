@@ -15,23 +15,28 @@ namespace ASP_EntityFramework.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(blogDbContext.Posts);
         }
 
         [HttpGet]
         public IActionResult Add()
         {
+            //ModelState.AddModelError("Title", "Prosto tak");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(Post post)
         {
-
-            post.Date = DateTime.Now;
-            await blogDbContext.AddAsync(post);
-            await blogDbContext.SaveChangesAsync();
-            return RedirectToAction("Index", "Home");
+            if (ModelState.IsValid)//
+            {
+                post.Date = DateTime.Now;
+                await blogDbContext.AddAsync(post);
+                await blogDbContext.SaveChangesAsync();
+                TempData["Status"] = "New Post Added";
+                return RedirectToAction("Index", "Home");
+            }
+            return View(post);
         }
 
         public IActionResult Privacy()
