@@ -1,4 +1,6 @@
-﻿using ASP_EntityFramework.Models;
+﻿using ASP_EntityFramework.Helpers;
+using ASP_EntityFramework.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,28 +17,59 @@ namespace ASP_EntityFramework.Controllers
 
         public IActionResult Index()
         {
-            return View(blogDbContext.Posts);
+            return View(this.blogDbContext.Posts.ToArray());
         }
+        public IActionResult Remove(int id)
+        {
+            //Post post =this.blogDbContext.Posts.Where(x => x.Id == id).FirstOrDefault();//1
+            //this.blogDbContext.Remove(post);
+            this.blogDbContext.Remove(new Post {Id=id});//2
+            this.blogDbContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Post post = this.blogDbContext.Posts.Where(x => x.Id == id).FirstOrDefault();//1
+            
+            return View(post);
+        }
+        [HttpPost]
+        public IActionResult Edit(Post post)
+        {
+
+            this.blogDbContext.Update(post);
+            this.blogDbContext.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpGet]
         public IActionResult Add()
         {
-            //ModelState.AddModelError("Title", "Prosto tak");
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Post post)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(Post post, IFormFile image)
         {
-            if (ModelState.IsValid)//
-            {
-                post.Date = DateTime.Now;
-                await blogDbContext.AddAsync(post);
-                await blogDbContext.SaveChangesAsync();
-                TempData["Status"] = "New Post Added";
-                return RedirectToAction("Index", "Home");
-            }
-            return View(post);
+
+            var path = await FileUploadHelper.UploadAsync(image);
+            post.ImageUrl = path;
+
+            //if (ModelState.IsValid)
+            //{
+            //    post.Date = DateTime.Now;
+            //    await blogDbContext.AddAsync(post);
+            //    await blogDbContext.SaveChangesAsync();
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //return View();
+            post.Date = DateTime.Now;
+            await blogDbContext.AddAsync(post);
+            await blogDbContext.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()

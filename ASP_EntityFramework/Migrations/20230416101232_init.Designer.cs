@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP_EntityFramework.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20230411123252_MaxLenghtChange")]
-    partial class MaxLenghtChange
+    [Migration("20230416101232_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,8 +43,7 @@ namespace ASP_EntityFramework.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()

@@ -15,21 +15,53 @@
 }
 
 <div class="list-group">
-@foreach(var item in Model)
+@*@foreach(var item in Model)
     {
        
-  <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+  <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+     <img src="@item.ImageUrl"/>
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">@item.Title</h5>
       <small>@item.Date</small>
     </div>
-    <p class="mb-1">@item.Content</p>
+    <p class="mb-1">@Html.Raw(@item.Content)</p>
     <small>And some small print.</small>
+    <a asp-controller="Home" asp-action="Remove" asp-route-id="@item.Id" class="btn btn-danger">Remove</a>
+    <a class="btn btn-primary">Update</a>
   </a>
-  
+ 
 
-    }
-    
+    }*@
+   
+   @foreach (var item in Model)
+
+    {
+
+
+        <a href="#" class="list-group-item list-group-item-action " aria-current="true">
+            <img src="@item.ImageUrl">
+            <div class="d-flex w-100 justify-content-between">
+
+                <h5 class="mb-1">@item.Title</h5>
+
+                <small>@item.Date</small>
+
+            </div>
+
+            <p class="mb-1">@Html.Raw(@item.Content)</p>
+
+            <small>And some small print.</small>  
+                    <a asp-controller="Home" asp-action="Remove" asp-route-id="@item.Id" class="btn btn-danger">Remove</a>
+            <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id"  class="btn btn-primary">Edit</a>
+                     
+
+        </a> 
+
+
+}
+
+
+
 
 </div>
 
